@@ -1,12 +1,13 @@
 body {
   background-color: #222222;
   color:#bababa;
+  font-size:100%;
   font-family: monospace;
 
 h1 {
   color: #eaeaea;
   text-align: center;
-  font-size:6em;
+  font-size:30vw;
 }
 
 a {
@@ -14,5 +15,5 @@ a {
 }
 
 p {
-  font-size:2em;
+  font-size:15vw;
 }
