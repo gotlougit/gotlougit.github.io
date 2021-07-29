@@ -1,0 +1,18 @@
+body {
+  background-color: #222222;
+  color:#bababa;
+  font-family: monospace;
+
+h1 {
+  color: #eaeaea;
+  text-align: center;
+  font-size:40px;
+}
+
+a {
+  color:#eaeaea;
+}
+
+p {
+  font-size: 14px;
+}
