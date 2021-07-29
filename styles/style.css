@@ -10,6 +10,11 @@ h1 {
   font-size:30vw;
 }
 
+html {
+  scrollbar-color: #0026ff;
+  scrollbar-width: thin;
+}
+
 a {
   color:#eaeaea;
 }
