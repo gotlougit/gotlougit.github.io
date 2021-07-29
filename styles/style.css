@@ -6,7 +6,7 @@ body {
 h1 {
   color: #eaeaea;
   text-align: center;
-  font-size:40px;
+  font-size:40vw;
 }
 
 a {
@@ -14,5 +14,5 @@ a {
 }
 
 p {
-  font-size: 14px;
+  font-size: 14vw;
 }
