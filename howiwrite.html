@@ -1,0 +1,53 @@
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<title>How I write on this website - Saksham Mittal's Website</title>
+</head>
+
+<div align='center'>
+<h1><a href="index.html">Saksham Mittal</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href="comingsoon.html" title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">GitHub</a></p>
+
+<hr />
+</div>
+Added/updated on: Friday, 30 July, 2021 01:44 PM
+<!-- HEAD END -->
+<h1 id="how-i-write-on-this-website">How I write on this website</h1>
+<h2 id="a-more-detailed-look">A more detailed look</h2>
+<p>I like the Unix philosophy a lot, that is,</p>
+<ul>
+<li>Write programs that do one thing, and do it well.</li>
+<li>Write programs to work together.</li>
+<li>Write programs to handle text streams.</li>
+</ul>
+<p>This was the basis of <a href="https://github.com/gotlougit/blog-helper">blog-helper</a>, a small Python program I started to write in May of 2021 in order to facilitate easy maintainence of my blog. If you’re curious, you can take a look at blog-helper at my GitHub repository, take a look at my code, and make some suggestions on how to make it better.</p>
+<p>Why not use a readymade solution, you may ask? Well, I took this project mostly as a learning opportunity, really to polish up my Python skills and get my feet wet with web development.</p>
+<p>So, after roughly 2 months of development (really more like 5-6 hours of development spread over 2 months), I have a pretty functional program that does most of the work for me.</p>
+<p>The main things that blog-helper does are as follows:</p>
+<ul>
+<li>Add formatting to each blog entry (I termed this “polish”). This includes linking to a CSS stylesheet, adding the header and footer, etc. from predefined template files</li>
+<li>Add an entry to <code>index.html</code> to complete publishing.</li>
+<li>Automatic date and time stamps (this can be toggled on and off)</li>
+<li>Automatic title and descriptions (right now, the description needs to be taken)</li>
+<li>Automatic RSS feed generation</li>
+<li>Provision to strip away the polish for easy editing of the webpage in case I need to update the information</li>
+<li>Updating the polish in case of a site redesign</li>
+</ul>
+<p>This seems to be a big list for “write program that does one thing and one thing well”, but this is what a "blog helper’ needs to do in my opinion. All of these tasks are mundane and can be easily automated. This allows me to focus on the writing, which is obviously the most important part of a blog.</p>
+<p>For the language, I chose Python. Shell scripts would’ve probably been better, however, I am not an expert in them. I am learning as of the writing of this article, but since I am more familiar in Python, and Python programs can also run on Windows without the need of <a href="https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux">WSL</a>, so this program may be more suitable for even more people out there.</p>
+<p>However, you will notice I left writing the actual article out of the list of things blog-helper does. This is because I prefer writing Markdown in NeoVim. The “vi family” of text editors are pretty much ubiquitous in POSIX based systems, and learning how to use it further enhances my skills. Markdown is simple and gets out of the way, kind of like NeoVim.</p>
+<p>To convert the article into an HTML file, I use <a href="https://pandoc.org/">pandoc</a>. It’s a really nifty tool for converting different types of text files, and I highly recommend it. After pandoc has done it’s thing, I just use blog-helper and then commit to the git repository where this website sits.</p>
+<p>I primarily designed blog-helper for my own website, however, I’ve tried as best I can to make sure blog-helper can be used in any website out there.</p>
+<p>You can also see that the “incomplete” nature of blog-helper benefits different workflows. Someone could skip the whole Markdown to HTML conversion by just writing HTML by themselves or with some other tool and then use blog-helper directly. Someone else might not even care about RSS and can even turn it off using the config file that’s generated automatically.</p>
+<p>Of course, blog-helper is not perfect. It’s missing features that I didn’t really think about too much. For example, the provision to strip away polish is a function that came in handy for updating the polish, but I added an option for the user to see the raw webpage around the same time I was writing this article! However, any time I encounter this, I just spend 5-10 minutes adding the feature into blog-helper and then going on my merry way.</p>
+<p>To sum up,</p>
+<ul>
+<li>I write the article in NeoVim in markdown</li>
+<li>I convert the Markdown page to an HTML page</li>
+<li>I use blog-helper to add formatting to HTML page, and add the blog entry in <code>index.html</code></li>
+<li>I commit my changes and push the changes to Github.</li>
+</ul>
+<!-- FOOT START -->
+
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2021 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
