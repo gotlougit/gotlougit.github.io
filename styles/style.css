@@ -1,13 +1,14 @@
 body {
   background-color: #222222;
   color:#bababa;
-  font-size:140%;
+  font-size:1.5vw;
   font-family: monospace;
+}
 
 h1 {
   color: #eaeaea;
   text-align: center;
-  font-size:30vw;
+  font-size:3vw;
 }
 
 html {
@@ -18,8 +19,3 @@ html {
 a {
   color:#eaeaea;
 }
-
-p {
-  font-size:15vw;
-}
-
