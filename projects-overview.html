@@ -1,0 +1,119 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<meta charset="utf-8">
+	<title>Programs I’ve Written - Nonchalant Guidance</title>
+</head>
+<div align='center'>
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href="comingsoon.html" title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">GitHub</a></p>
+</div>
+<form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <input type="hidden" name="sites" value="gotlougit.github.io"/>
+    <input type="hidden" name="k7" value="#ffffff"/>
+    <input type="hidden" name="k8" value="#222222"/>
+    <input type="hidden" name="k9" value="#00278e"/>
+    <input type="hidden" name="kx" value="#20692b"/>
+    <input type="hidden" name="kj" value="#fafafa"/>
+    <input type="hidden" name="kt" value="p"/>
+    <input type="text" name="q" placeholder="Search this website.." aria-label="Search gotlougit.github.io on DuckDuckGo"/>
+    <button type="submit">Search</button>
+</form>
+<hr />
+<!-- HEAD END -->
+Added on: Sunday, 05 December, 2021 | Updated on: -
+<h1 id="programs-ive-written">Programs I’ve Written</h1>
+<h2 id="an-overview-of-my-previous-projects">An overview of my previous projects</h2>
+<p>I’ve been programming for a fairly long time, and tinkering with computers for much longer than that. In that amount of time, I’d say I’ve tried my hand at a lot of different aspects of computing:</p>
+<ul>
+<li><p>I’ve been daily driving Linux for ~5 years and am fairly comfortable with the command line (still learning shell scripting)</p></li>
+<li><p>I’ve become familiar with vim (I use NeoVim now though)</p></li>
+<li><p>I’ve messed around with MySQL and the corresponding Python API</p></li>
+<li><p>I’ve learned Python and C</p></li>
+<li><p>I’ve built this website in the absence of any web frameworks or JavaScript.</p></li>
+<li><p>I learned Markdown to write better documentation and to also manage my own personal notes</p></li>
+<li><p>I’ve learned how to use version control software to manage my projects and merge contributions in branches</p></li>
+<li><p>I wrote a game with my friends <a href="https://github.com/gotlougit/panzer">called panzer</a>, which is the first one I worked on with someone else</p></li>
+<li><p>I’m currently rewriting a part of that project in C using SDL in order to become more familiar with the language.</p></li>
+</ul>
+<p>This post is really just a look back at some of my projects and how they originated</p>
+<h3 id="my-list-of-projects">My list of projects</h3>
+<ul>
+<li><a href="https://github.com/gotlougit/ett">Eye Time Tracker</a></li>
+</ul>
+<p>This is probably the first <em>real</em> program I ever wrote. I say real because up until that point, I’d been building something out of a tutorial, and that this one was something that I myself thought up of and implemented.</p>
+<p>It’s <em>definitely</em> not good code; I’ve somehow written functions called <code>break()</code>, <code>break2()</code>, <code>break25()</code> and <code>break3()</code>, used some global variables, and also printed a somewhat rude message when the user refused to take a break.</p>
+<p>However, it was:</p>
+<pre><code>- A working program
+
+- A starting point</code></pre>
+<p>I remember working really hard to build this program and to get it working, and <em>almost</em> giving up on the program, but I just kept going. It felt so rewarding to get this first program up and running, even if I had to write hacky, repetitive code, and even if it didn’t really do all that much. All that mattered was that this program was something I willed into creation, for better or for worse, and this prospect of creation excited me to no end.</p>
+<ul>
+<li><a href="https://github.com/gotlougit/list">List</a></li>
+</ul>
+<p>The moment you open the GitHub repository for this program, you’ll notice the much better README.md file (screenshots!)</p>
+<p>This project just creates a list in an interactive way in the terminal. It makes liberal use of ASCII escape codes to clear the screen (doesn’t work on Windows) as well as the Python <code>input()</code> function. That’s it. There’s no ncurses, and a rudimentary edit functionality was attempted to be added, but its been commented out so I think I never really finished it..</p>
+<p>It taught me a lot about file handling and how to organize a project. You’ll notice a gargantuan leap in code quality from Eye Time Tracker, from the naming structure (bye bye <code>break25()</code>) to the commenting frequency.</p>
+<ul>
+<li><a href="https://github.com/gotlougit/time2lib">time2lib</a></li>
+</ul>
+<p>The main reason why I wanted to write time2lib, which pretty much gives a couple functions for you to integrate the behavior of Eye Time Tracker into your own programs, was to improve upon Eye Time Tracker. I’d opened the code up on a whim, saw the quality of the code and promptly got to work rewriting it.</p>
+<p>Also the name was pretty funny, it’s a play on the phrase “time to live”, and the “2” signifies this is the second time I was writing something like this, and I just had to put that in somewhere.</p>
+<p>The README.md is again pretty polished and even has a roadmap of things to do, but it’s somewhat lacking with the installation instructions for Windows.</p>
+<ul>
+<li><a href="https://github.com/gotlougit/scraper">scraper</a></li>
+</ul>
+<p>Scraper was a pretty fun project for me. I’ve always marvelled at the Internet and the free flow of information it allows, and I wanted to use this information in new, cool and wacky ways, kind of like <a href="https://www.youtube.com/watch?v=BxV14h0kFs0">how Tom Scott describes in the Web 2.0 days in this YouTube video</a></p>
+<p>I’d actually made a simple program that would go to the Wikipedia English home page, fetch details about the featured article of the day and make a hangman game out of it. I called it wikiquiz, and I haven’t released it on GitHub*, but the scraping part of that code was released (after a couple of modifications) as scraper, a very basic set of tools to scrape webpages for information.</p>
+<p>Keep in mind I never wanted to match or compete with the likes of Beautiful Soup with this product, but rather:</p>
+<ul>
+<li><p>Get an idea of how this stuff works (granted my implementation isn’t very efficient or extensible but I’d get the gist of things)</p></li>
+<li><p>Have a very simple installation procedure; plop the scraper.py file in your project and import it. That’s it. It uses urllib, which is in the standard library for Python so there’s basically no maintainence or updates needed from my end, which makes it a pretty easy to use option if you have a static page you need to get your information from.</p></li>
+</ul>
+<p>The scraper isn’t very good, admittedly, but I still think it’s a somewhat clever way of approaching the problem of parsing HTML, if you don’t care too much about speed.</p>
+<p>* Wikipedia already has an API, and I don’t really want to encourage lots of unnecessary traffic to their website. Also I did try to run it, and it doesn’t work anymore. One of the many pitfalls of scraping web pages, I’m afraid.</p>
+<ul>
+<li>After scraper</li>
+</ul>
+<p>If you’re particularly observant, you’ll have noticed that there’s a lot of gaps in me releasing these projects on GitHub. The truth is that I’ve created (more accurately tried to create) lots of things, but I only released something on GitHub if it seemed to be a little original and was functional as well. If it had too many edge cases to fix or was far too ambitious for the time, I never published it.</p>
+<p>During 2020, I also started to work on a game for my 12th class computer science class with two of my friends called <a href="https://github.com/gotlougit/panzer">panzer</a>. There’s little to no git history for this, but that’s because I was unaware that GitHub had made private repositories free for non-paying users in 2020. We instead used the very low-tech option (by comparison) of just sending each other the changed source code files we’d worked on and pasted them into our working directories. At the end of each coding session, I’d create a zip folder and keep that as a backup of our work in case we messed up tomorrow.</p>
+<p>After the school year ended, we pretty much had the permission to publish the code on GitHub, and so my friends created accounts and I had them upload a part of the project so that all three of our names would show up as contributors on GitHub.</p>
+<p>Between this, I started to look into creating this blog as a way to spread information about a variety of things, as well as having a space to show off my projects and talk about them at length.</p>
+<ul>
+<li><a href="https://gotlougit.github.io">This blog</a></li>
+</ul>
+<p>Well, you’re reading it! This page is built using GitHub Pages, though I elected not to use any of their templates etc. I wrote the HTML and CSS myself since I wanted to learn more about web technologies, but I did also write a tool to help me create templates and apply them to any blogpost I write in the future with not too much work.</p>
+<p>I eventually plan to migrate this entire website to a custom domain, but I’ll still stick with hosting on GitHub Pages unless I get enough traffic to warrant setting up my own web server.</p>
+<ul>
+<li><a href="https://github.com/gotlougit/blog-helper">blog-helper</a></li>
+</ul>
+<p>blog-helper is intended to help create blogposts more easily for me. There’s a config file written in JSON (but with fairly descriptive variable names) for me to enable and disable features as well as tweak how templates are added to the webpages. I’ve made it flexible enough to work with anyone’s webpages and it deliberately doesn’t do as much automation as other tools do (no one command publishing here!) so as to accomodate alternative workflows. Someone could add spell checks done before running blog-helper, while someone else could also compress all their webpages generated from here in order to save bandwidth for both themselves and their users, and so on and so forth.</p>
+<p>The code itself is very basic, and in fact scraper’s techniques of using Python’s inbuilt string parsing methods comes in very handy for a lot of stuff. The RSS integration does work, although I haven’t really enabled it for my website since I want to do that when I get a custom domain.</p>
+<p>This project also created a sort of spin off that one could use in their own projects as a drop-in module if they wanted-</p>
+<ul>
+<li><a href="https://github.com/gotlougit/config-manager">config-manager</a></li>
+</ul>
+<p>config-manager is in charge of JSON. That’s kind of it. It’ll save to a dictionary and it’ll load the config file into a dictionary from where you’re free to do whatever you desire.</p>
+<h3 id="whats-next">What’s next?</h3>
+<p>It’s somewhat mind-boggling to me to see how far I’ve managed to come from the beginning, but I have my sights set sorely on the future.</p>
+<ul>
+<li>I’ve gotten into C programming, and have started to contribute to open-source projects.</li>
+</ul>
+<p>The first one I contributed to was <a href="https://github.com/%60%60%60tldr%60%60%60-pages/%60%60%60tldr%60%60%60"><code>tldr</code></a>, which is a really nice project that creates very useful summaries of various programs so that you can find that one argument that you always forget to use that does what you need it to do. It also has lots of clients written in a variety of programs, like C, C++, Python, JavaScript, etc. which you can contribute to. In fact, you could write your own <code>tldr</code> client as well, there’s just some <a href="https://raw.githubusercontent.com/tldr-pages/tldr/main/CLIENT-SPECIFICATION.md">specifications you have to follow</a>.</p>
+<p>What I really like about <code>tldr</code> is that they have a really good review process for everything; from the client code to the pages they have. They’re also very systematic and organized, and their project is genuinely one of the most useful thing I’ve used. I can’t count the number of times I’ve searched up on how to do something with git (for example), and have had to wade through technical docs I can’t understand half the words of without going down seven rabbit holes, or StackOverflow answers for related things, or random websites full of spam and ads that contain very little actual info. The man pages are really good, but you have to know what you’re looking for. <code>tldr</code> occupies a nice middle ground, and one of the main advantages they have over similar projects is the excessive amount of standardization they follow. If you’re looking to contribute to them, <code>tldr</code> could benefit greatly from translating existing pages into other languages, as well as new pages for new tools that have cropped up.</p>
+<p>In fact, the usefulness of <code>tldr</code> is such that I sat down and wrote a basic search function for the Python client (the one I use) so that I could find stuff easily. This serves another use case that I can eliminate from my web browser, reducing context switching even more. For example, if I forgot how to change branches in git, I could:</p>
+<pre><code>1. Open my web browser and search &quot;change branches git&quot;
+
+2. Fire up a terminal and type ```tldr git --search &quot;change branch&quot;```</code></pre>
+<ul>
+<li><p>Somewhat related to this, I am also looking to participate in Google Summer of Code 2022. For this, I’ve been interacting with a couple of open source projects, and learning new things for fulfilling my curiosity and to better contribute to these projects.</p></li>
+<li><p>I’m messing around with a spare computer and trying to learn how Linux servers are deployed and set up (more on this in a future blog post).</p></li>
+<li><p>I’m getting back into some competitive programming, mostly as practice to improve my problem-solving skills, but also to learn some more DSA.</p></li>
+<li><p>In order to learn more about the nitty-gritty of computing, I’m planning on writing an emulator for CHIP-8. I’ve gathered the resources and am planning to write it in C. It’ll be a fun and interesting project, and I’ll be sure to write more about it here.</p></li>
+</ul>
+<p>That’s all for today. Bye now!</p>
+<!-- FOOT START -->
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2021 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
+</html>
