@@ -1,0 +1,75 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<meta charset="utf-8">
+	<title>Converting a Smartphone into a Server - Nonchalant Guidance</title>
+</head>
+<div align='center'>
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href='comingsoon.html' title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">My Projects</a></p>
+</div>
+<form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <input type="hidden" name="sites" value="gotlougit.github.io"/>
+    <input type="hidden" name="k7" value="#ffffff"/>
+    <input type="hidden" name="k8" value="#222222"/>
+    <input type="hidden" name="k9" value="#00278e"/>
+    <input type="hidden" name="kx" value="#20692b"/>
+    <input type="hidden" name="kj" value="#fafafa"/>
+    <input type="hidden" name="kt" value="p"/>
+    <input type="text" name="q" placeholder="Search this website.." aria-label="Search gotlougit.github.io on DuckDuckGo"/>
+    <button type="submit">Search</button>
+</form>
+<hr />
+<!-- HEAD END -->
+Added on: Monday, 10 January, 2022 | Updated on: -
+<h1 id="converting-a-smartphone-into-a-server">Converting a Smartphone into a Server</h1>
+<h2 id="a-glorious-resurrection">A glorious resurrection</h2>
+<h3 id="foreword">Foreword</h3>
+<p>I recently came into possession of a <a href="https://en.wikipedia.org/wiki/Redmi_2">Xiaomi Redmi 2</a>, which is a budget smartphone from 2015. It’s nothing special, my particular model has 1 GB RAM, a quad core Snapdragon 410 from Qualcomm, and 8 GB storage, with expansion possible using an SD card. The latest version of Android shipped by Xiaomi was Android KitKat, which is nearly 8 years old at this point.</p>
+<p>This is quite disappointing considering Windows and Linux are perfectly happy to run on 10 year old devices (and even older!), allowing them to be used for basic web browsing, editing documents, looking at pictures etc. Especially in our time, it’s pretty important that we use our devices for longer, but sometimes outdated software prevents us from doing that.</p>
+<p><a href="https://postmarketos.org/">postmarketOS</a> aims to solve exactly this problem. It’s based on a Linux distro called Alpine Linux, which has been primarily used as a base image for containers. postmarketOS is focused more on extending the lifetime of our smartphones to 10 years, and even replacing the proprietary drivers with open source ones so that they can be merged with the Linux kernel so as to allow users to run the latest mainline Linux kernel, just like how PCs do it.</p>
+<p>Now, budget phones from 6 years ago aren’t exactly in a good position to be daily driven in 2021 (perhaps if we took a phone released today and tried to daily drive it 6 years later the situation would be more favourable…), but due to their low power draw (not even 10 watts most of the time!), small form factor, fanless designs, inbuilt screens (could be used for showing useful info), and a battery (mine still holds a charge and works fine, but your mileage may vary here), I think they are excellent machines to get started with setting up and maintaining a server. This will definitely not hold up for actual, critical use in more extreme environments, but for a hobbyist hooking this up to a LAN, these old smartphones are not a bad idea.</p>
+<p>While this could be done on something like a Raspberry Pi, I do like the idea of taking an almost end of life smartphone and repurposing it into a fairly competent home web server. Since this is a smartphone, it’ll basically sip battery (and if I leave it plugged in and if the power goes out, the 2200 mAh battery should be good enough to power this thing for a pretty long time).</p>
+<h3 id="installation">Installation</h3>
+<p>In order to install postmarketOS on my phone, I followed the helpful instructions given <a href="https://wiki.postmarketos.org/wiki/Xiaomi_Redmi_2_(xiaomi-wt88047)">on the official wiki</a>. The steps first involve flashing a recovery to the phone (I had already been running LineageOS on this so I skipped this), then flashing <a href="https://github.com/msm8916-mainline/lk2nd#readme">lk2nd</a>, which is a fastboot complement which allows us to finally flash the mainline Linux kernel and postmarketOS. I initially flashed a prebuilt image but later opted to build a custom image myself using the <a href="https://wiki.postmarketos.org/wiki/Pmbootstrap">pmbootstrap</a> utility maintained by postmarketOS for this purpose. This allowed me to build an image with all the utilities I needed, like vim, nginx, git etc. I opted to use the fbkeyboard interface, which is basically just the console and a basic soft keyboard to type with, which I felt was useful in case I had to execute something on the local machine without ssh.</p>
+<p>On the phone, it consumes a measly 460 megabytes of storage, which leaves a substantial amount for my purposes.</p>
+<p>Once I had followed all the instructions, I was greeted with a terminal (yay!). By default postmarketOS allows you to ssh into the device by connecting it to your computer, and connecting it to a network via USB Ethernet that has only your PC and the phone on it. You go to a specific IP address (172.16.42.1) and it automatically connects. This is how I then ssh’d into my phone and then connected it to the Wi-Fi.</p>
+<h3 id="setting-up-the-server">Setting up the Server</h3>
+<p>This process is two-fold:</p>
+<ol type="1">
+<li><p>Setup nginx</p></li>
+<li><p>Allow HTTP connections in the firewall</p></li>
+</ol>
+<h3 id="part-1-nginx">Part 1: nginx</h3>
+<p>I used a combination of postmarketOS wiki, the venerable Arch Wiki and some common sense to get nginx fully working. I even generated a self-signed certificate, which is better than nothing. Later I reverted back to an HTTP connection because everything complained about the self-signed certificate. I may end up adding this certificate to all my devices but given the use case, it’s not a big deal for me.</p>
+<h3 id="part-2-firewall-stuff">Part 2: firewall stuff</h3>
+<p>This was honestly the hard part, but luckily I found a similar guide <a href="https://rucore.net/en/how-to-making-a-server-from-an-android-phone/#Part_two_PostmarketOS_setup">here</a> in which they had provided the firewall rules for the postmarketOS default, nftables. Using these allows HTTP connections from the phone to any machine on my local network.</p>
+<h3 id="usage">Usage</h3>
+<p>From my PC, I simply went onto the phone’s IP address and beheld my website running on the phone. It’s pretty much instant viewing, which makes sense considering it’s basically just some text.</p>
+<p>I pretty much hacked together a couple pages for the website on the server (right now just 2): a status checker for popular website (my own little downdetector, except it just displays current status, not historical data, maybe I’ll work on this later), and a page which pretty much prints out a whole bunch of info about the machine itself by showing the output of a couple commands. I used <code>neofetch</code> and <code>upower -d</code> as a start, but I can easily add more. The pages aren’t raw HTML either, I used my old friend <a href="https://github.com/gotlougit/blog-helper">blog-helper</a> to add all the standard CSS and stuff that I wanted. This saved me a lot of time and was genuinely a good use case of the program.</p>
+<p>In fact, I copied a video over to the phone using scp, and streamed it. The video (a 1080p video I ripped from YouTube, so it’s probably compressed) played flawlessly. I skipped around too and it kept up fine. Maybe this thing isn’t as slow as one would think.</p>
+<h3 id="adding-a-local-domain">Adding a local domain</h3>
+<p>This is super straightforward. We’re gonna use avahi here. First install it using <code>sudo apk add avahi</code> and then enable the service using <code>sudo rc-service avahi-daemon start</code>. Then, go to your web browser and type yourhostname.local, and replace “yourhostname” with the hostname of your device.</p>
+<p>That’s it. Nothing else. If you have nginx running successfully it should just load whatever website you designed. This is pretty sweet-looking and makes it far easier to use this web server in many ways. This also allows you to ssh into the phone using this hostname, so it’s actually a pretty practical thing to do so you don’t have to go looking for the IP address or configure a static IP address.</p>
+<p>The only problem is that Android doesn’t support this, so you’ll have to type in the IP address for any Android devices. I didn’t test with Windows though. The technology avahi is built on (multicast DNS) was first created by Apple, so Apple devices should work fine.</p>
+<h3 id="a-git-server">A git server</h3>
+<p>This is one of the services I really wanted to self-host. It would be useful to have a separate device which could:</p>
+<ul>
+<li><p>Create a mirror of interesting repositories and update them periodically</p></li>
+<li><p>House all my projects as a backup, including ones that I would later release on GitHub/GitLab. I don’t like using their web interfaces that much and the command line utilities they provide are specific to the service, so I end up just storing all the code on one machine until it’s ready to push to the world.</p></li>
+</ul>
+<p>I did try to setup cgit on this machine but for whatever reason it wasn’t working, so in <a href="https://en.wikipedia.org/wiki/Git#History" title="git was created by Linus Torvalds when he wanted a version control system suitable for the Linux kernel project">true git fashion</a>, I created my own git server software.</p>
+<p>Okay, that was kind of a stretch, but I did create a small script to help easily manage my git server. I was inspired by <a href="https://richjenks.com/self-hosted-git-server/">this post</a></p>
+<p>This isn’t a real complex beast and it doesn’t do much. git was designed to be decentralized, so the “server” consists of using git basically. All it does is really abstract away a long command to ssh into my server and execute the git command required to clone a repo and pull existing repos from upstream. It doesn’t have a web interface or anything, but this is really the only thing I need it to do.</p>
+<p>When cloning a big project like git to the phone, the CPU was kind of hammered; it frequently reached ~80% usage from time to time, and even touched 100% on almost all 4 cores. I don’t think it’s well-equipped for any serious work, but for something that’s not quite mission-critical, it’s a fairly capable device.</p>
+<h3 id="periodically-running-scripts-using-cron">Periodically running scripts using cron</h3>
+<p>These are relatively simple scripts, so I opted to use <code>cron</code> to run these commands every hour.</p>
+<p>So roughly speaking, every hour the machine updates all the git repos stored on it, and updates the website content as well. Every week I have it run updates and reboot automatically, so there’s little to no maintainence involved.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>This was a fun adventure, and I do like messing around on a relatively unimportant device that also has advantages over the other machines in my house. I plan to gain experience with Linux servers using this phone and ssh, as well as expand it’s capabilities.</p>
+<p>That’s all for today. Bye for now!</p>
+<!-- FOOT START -->
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2021 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
+</html>
