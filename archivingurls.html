@@ -1,0 +1,55 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<meta charset="utf-8">
+	<title>Archiving URLs automatically - Nonchalant Guidance</title>
+</head>
+<div align='center'>
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href='comingsoon.html' title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">My Projects</a></p>
+</div>
+<form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <input type="hidden" name="sites" value="gotlougit.github.io"/>
+    <input type="hidden" name="k7" value="#ffffff"/>
+    <input type="hidden" name="k8" value="#222222"/>
+    <input type="hidden" name="k9" value="#00278e"/>
+    <input type="hidden" name="kx" value="#20692b"/>
+    <input type="hidden" name="kj" value="#fafafa"/>
+    <input type="hidden" name="kt" value="p"/>
+    <input type="text" name="q" placeholder="Search this website.." aria-label="Search gotlougit.github.io on DuckDuckGo"/>
+    <button type="submit">Search</button>
+</form>
+<hr />
+<!-- HEAD END -->
+Added on: Wednesday, 02 March, 2022 | Updated on: -
+<h1 id="archiving-urls-automatically">Archiving URLs automatically</h1>
+<h2 id="a-foray-into-shell-scripting">A foray into shell scripting</h2>
+<p>I have been looking into getting into shell scripting for a long time, mostly because it’s a very simple but powerful way to automate boring and tedious tasks.</p>
+<p>One such task that I think is pretty important is archiving websites for future use. The Internet is not a static place, but rather surprisingly volatile, prone to websites suddenly (and sometimes permanently) going offline, or paywalls being constructed to make reading even one random article an exercise in frustration. As an example, I tried to find resources on how to get started with kernel development, and was able to find an interview Greg Kroah-Hartman gave on tuxradar.com, a website that seems to now return a 404 error on even it’s homepage, let alone the link I found.</p>
+<p><img src="images/tuxradar_homescreen.png" alt="TuxRadar 404 Error" /> <em>Well, that’s no good. And it doesn’t even have proper HTTPS!</em></p>
+<p>To get around this issue, I used the Internet Archive to view an archive that it had stored from 2014.</p>
+<p><img src="images/tuxradar_archived.png" alt="TuxRadar Archived Webpage" /> <em>Now, that’s better. Thanks Internet Archive!</em></p>
+<p><a href="https://archive.org">The Internet Archive</a> is an amazing project set up to build not only just a collection of webpages from years past and years to come, but also:</p>
+<ul>
+<li><p>Books in public domain, and some books not in the public domain can be borrowed as if from a library all aroudn the world, <em>free of charge</em></p></li>
+<li><p>Music in the public domain</p></li>
+<li><p>Video (includes everything from silent movies to trailers of today’s blockbusters to maybe even some classics)</p></li>
+<li><p>Video games from old consoles and PC platforms, with the permission of the rights holder, which can even <em>be played in the browser itself</em> or optionally be downloaded from the Internet Archive, depending on how the rights holders have configured their uploads I believe.</p></li>
+<li><p>Even YouTube videos play using Internet Archive! I was actually really surprised by this since YouTube doesn’t just have a <code>&lt;video&gt;</code> tag in their source code with a URL to the video, but hey, I’m not complaining! This is truly the cherry on top. In case YouTube ever goes away or someone on the platform deletes a controversial video, the proof still stays somewhere, preserved for posterity.</p></li>
+</ul>
+<p>The Internet Archive also provides a helpful way to archive any webpages you come across as well, and this is the subject of this post.</p>
+<p>While as of the writing of this article, my website is a bit sparse when it comes to external links, I expect this to change as time goes on. Also, I have a lot of links saved in plain text files for future reference. These are primarily resources I access from time to time, or rather information about topics I’d like to know more about. I don’t really want to be in a situation where I need to access these resources only to be greeted with a 404 error.</p>
+<p>I was looking into ways to automate saving URLs to archive.org. The preferred tool to do so is <a href="https://archive.org/services/docs/api/internetarchive/cli.html">ia</a>, which is a Python tool for interacting with the Internet Archive through the command line.</p>
+<p>However, this tool is a bit overkill for my purposes. I really only want one feature out of all the ones that <code>ia</code> offers.</p>
+<p>Luckily, there’s a much easier, and barebones way to archive a given URL; by prefixing https://web.archive.org/save to the beginning of the URL, you can tell Internet Archive to save the URL. If, for example, you tell the service to make excessive archives, it will automatically deny the request.</p>
+<p>So, at this point, what I really wanted was to get a bit more familiar with shell scripting and use standard utilities to make a script that would read the raw HTML, extract the URLs and then use <code>curl</code> to send a request to the Internet Archive to archive them.</p>
+<p>I also didn’t really want to spam them with requests, so I also added a simple sleep command to send out requests every 2 seconds.</p>
+<p>The script just outputs the headers of the response gotten back from the Archive. If it’s a 302 FOUND message, and it has a location header with a web.archive.org URL, most likely it’s been archived.</p>
+<p>The code is at <a href="https://github.com/gotlougit/archiveurl">this link</a>. I initally was just going to post it here, but I decided that there were still some modifications to be made and it would be better to have them somewhere more easily updated.</p>
+<p>It’s also licensed under the public domain, so that not a single bit will be lost to the void (I kind of like that).</p>
+<p>That’s all for today. Bye for now!</p>
+<!-- FOOT START -->
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2022 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
+</html>
