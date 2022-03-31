@@ -1,0 +1,74 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<meta charset="utf-8">
+	<title>Living Without Google Play Services - Nonchalant Guidance</title>
+</head>
+<div align='center'>
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href='comingsoon.html' title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">My Projects</a></p>
+</div>
+<form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <input type="hidden" name="sites" value="gotlougit.github.io"/>
+    <input type="hidden" name="k7" value="#ffffff"/>
+    <input type="hidden" name="k8" value="#222222"/>
+    <input type="hidden" name="k9" value="#00278e"/>
+    <input type="hidden" name="kx" value="#20692b"/>
+    <input type="hidden" name="kj" value="#fafafa"/>
+    <input type="hidden" name="kt" value="p"/>
+    <input type="text" name="q" placeholder="Search this website.." aria-label="Search gotlougit.github.io on DuckDuckGo"/>
+    <button type="submit">Search</button>
+</form>
+<hr />
+<!-- HEAD END -->
+Added on: Thursday, 31 March, 2022 | Updated on: -
+<h1 id="living-without-google-play-services">Living Without Google Play Services</h1>
+<h2 id="an-attempt-to-de-google">An attempt to De-Google</h2>
+<p>Google has extremely privileged access to people’s lives through Google Play Services on billions of Android devices. Due to the history of Android and it’s adoption by phone manufacturers, Google Play Services provides APIs and capabilities that would normally have been programmed into the operating system instead. Since Play Services can get updated far faster than Android itself on the majority of phones, it’s easier for Google and developers to get the latest technology up and running on as many devices as possible.</p>
+<p>For example, by pushing Nearby Share as a Google Play Service update, <a href="https://blog.google/products/android/nearby-share/">it’s been able to run on devices running Android 6</a>!</p>
+<p>However, there is a dark side to this. The position in which Play Services sits, in between the operating system and the regular user apps, allows it to collect huge amounts of information, as documented in many studies. For example, the Google Dialer and Messages apps <a href="https://www.scss.tcd.ie/doug.leith/privacyofdialerandsmsapps.pdf">collect sensitive info for the purposes of spam prevention</a></p>
+<p>In the midst of all this, <a href="https://microg.org">MicroG</a> is a cool project that aims to replace the preinstalled Google Play Services that are preinstalled on nearly all Android phones in the world (outside China, anyway). They reimplement the many APIs that lots of common apps rely on. Not all the APIs are there, so it’s not 100% perfect, but I’ve found that it works fine for my usage, and I suspect that for many third party apps, it may work perfectly fine.</p>
+<p>MicroG also sends the least amount of information to Google’s servers for maximum privacy. You don’t even have to have a Google account if you want to use any apps, the only time the Google account becomes necessary is if you want to use any Google apps on your phone, and even that’s not completely set in stone.</p>
+<h3 id="the-good">The Good</h3>
+<ul>
+<li><p>I now use MicroG on my phone.</p></li>
+<li><p>Most of my apps are from F-Droid anyway, and these have almost no reliance on Google Play Services. I’ve also found that these apps don’t need any extraneous permissions, are privacy-friendly, and are sometimes even lighter and more responsive than their commerical counterparts due to being available only for Android and so, use native SDKs instead of some framework or WebView.</p></li>
+<li><p>Google Maps etc require a signin to work properly, so I have to use my account for this. I have tried to use alternatives to Google Maps but almost nothing else does the job as well, so this is why I have my Google Account logged into my phone.</p></li>
+</ul>
+<p>The rest of the Google suite, I try to use alternatives. Gmail for example gets replaced by a generic email client. I join Google Meet using a web browser instead that I keep signed in (it tries very hard to redirect to download the app, but if you request the desktop site, it works fine, albeit with tiny controls in portrait mode). This doesn’t bother me much since 99% of the time, I attend the meetings on my laptop, and for the 1% of times I’m on a phone, I can live with the inconvenience.</p>
+<p>In fact, lots of popular apps are also available as Progressive Web Apps (PWAs), so they can run right from the browser, albeit with certain features unavailable, and due to reliance on the browser (which doesn’t have as hard a requirement of Google Play Services as the native apps themselves), they can run better than the app.</p>
+<p>This is a sweet setup that works well enough that even if you have stock Google Play Services, it doesn’t make a lot of sense to use the full fat apps that request all those permissions. Not all the features will work, mind you, but if it’s an app you don’t really need to use much, it could be worth a shot.</p>
+<p>As for Maps, it doesn’t have navigation in the web app version, which is why I keep the app around.</p>
+<ul>
+<li><p>Some apps I’ve tried to use don’t work properly. Some just error out with no real reason given, so I didn’t bother to really check, and since they weren’t important, I just uninstalled them.</p></li>
+<li><p>I even installed Netflix for a bit and it worked just amazingly! The information section in the app confirmed that my device was certified for WideVine L1, which is the highest quality playback specification and allows 4K streaming. So I guess SafetyNet (once properly configured) can actually work with MicroG.</p></li>
+</ul>
+<p>Sounds pretty good right?</p>
+<h3 id="the-bad">The Bad</h3>
+<ul>
+<li>MicroG requires you to be comfortable unlocking the bootloader, flashing a custom recovery, and installing a custom ROM and system apps.</li>
+</ul>
+<p>This is something 99% of people won’t do, and for good reason- it’s too technical and convoluted. No OEM really sells MicroG equipped phones, likely because it’s not perfect and I’m fairly sure Google won’t be happy to see their revenue being attacked this way.</p>
+<p>Some organizations, like <a href="https://e.foundation/">e Foundation</a> do in fact provide phones with such modifications preinstalled, so if you want to support their work you can buy from them if you can.</p>
+<ul>
+<li>It doesn’t have all the features of Google Play Services</li>
+</ul>
+<p>Lots of functionality, like account controls etc are not yet written into MicroG. Nearby Share, for example, is not supported inside MicroG.</p>
+<ul>
+<li>It’s kind of inconsistent at times?</li>
+</ul>
+<p>I had a lot of trouble running Google Maps earlier, and one of the fixes I found involved downgrading MicroG to a slightly older release, which worked.</p>
+<p>However, I now have to perform a little “ritual” in order to get Google Maps to get my location and start navigation.</p>
+<pre><code>1. Open Google Maps and allow it to access my location
+2. Exit out of Google Maps, open up MicroG and go to the Location Backend
+3. Click on any one of the backends and wait for it to get your coordinates
+4. Go back to Google Maps, click on the icon to get current location, wait a bit and then find that location tracking works</code></pre>
+<h3 id="the-summary">The Summary</h3>
+<p>MicroG is good enough for me that I can switch to it. I tend to fit into the exact market that can live with it, so if you’re dependent on Google’s myriad of services or are not very comfortable with performing certain critical tasks on your smartphone, I don’t really recommend it.</p>
+<p>If you want to check the compatibility of your apps with MicroG or Ungoogled Android, you can head <a href="https://plexus.techlore.tech/">here</a>. Additionally, you can add reports yourself to the website by adding a pull request on their project page.</p>
+<p>That’s all for today. Bye now!</p>
+<!-- FOOT START -->
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2022 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
+</html>
