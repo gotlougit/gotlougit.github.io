@@ -1,0 +1,101 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<meta charset="utf-8">
+	<title>On Wine - Nonchalant Guidance</title>
+</head>
+<div align='center'>
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href='comingsoon.html' title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">My Projects</a></p>
+</div>
+<form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <input type="hidden" name="sites" value="gotlougit.github.io"/>
+    <input type="hidden" name="k7" value="#ffffff"/>
+    <input type="hidden" name="k8" value="#222222"/>
+    <input type="hidden" name="k9" value="#00278e"/>
+    <input type="hidden" name="kx" value="#20692b"/>
+    <input type="hidden" name="kj" value="#fafafa"/>
+    <input type="hidden" name="kt" value="p"/>
+    <input type="text" name="q" placeholder="Search this website.." aria-label="Search gotlougit.github.io on DuckDuckGo"/>
+    <button type="submit">Search</button>
+</form>
+<hr />
+<!-- HEAD END -->
+Added on: Saturday, 21 May, 2022 | Updated on: -
+<h1 id="on-wine">On Wine</h1>
+<h2 id="some-interesting-facts-and-tips-for-a-better-experience">Some interesting facts and tips for a better experience</h2>
+<h3 id="introduction">Introduction</h3>
+<p>While I get by pretty well (if not better) without any Windows-specific software, sometimes I do need to run such software (eg. games).</p>
+<p><a href="https://winehq.org">Wine</a> is an extremely useful piece of software on Linux. It attempts to black-box reverse -engineer all of the Windows system calls and reimplement them using Linux ones as best it can in order to run Windows software on Linux. This method helps it be efficient in doing so and there is very little performance penalty for most software.</p>
+<h3 id="some-background">Some background</h3>
+<p>What’s black box reverse-engineering? Well, “black box” in this context means to use ONLY public resources and information about Windows and it’s APIs, including how it handles edge cases and errors, to reproduce the same behaviour on Linux. The Wine project NEVER and I repeat NEVER uses any proprietary Microsoft-copyrighted code in it’s releases and has a strict process wherein contributors have to legally acknowledge that they have never seen any such proprietary Windows code at any point in their lives for any reason whatsoever.</p>
+<p>Overwhelmed? Well, its really because reverse engineering has been a gray area for a while, but according to most popular wisdon, by not using <strong>anything</strong> but public resources, if something has been reverse engineered, it’s legally in the clear.</p>
+<p>The whole “never contribute if you’ve seen Windows code” is because if there is even a hint of someone using their time at Microsoft or elsewhere (where it can be easily shown that they had seen Windows code), the project WILL get sued and it may well lose, ruining the painstaking work of nearly 30 years.</p>
+<p>If that doesn’t apply to you (and it probably doesn’t), feel free to contribute! It’s certainly an amazing project, and it could do with more bug reports or confirmation reports on <a href="https://appdb.winehq.org/">WineDB</a>, or on <a href="https://protondb.com">ProtonDB</a> if you’re using Proton on Steam.</p>
+<h3 id="the-problems">The problem(s)</h3>
+<p>As amazing as Wine is, it’s not without it’s drawbacks. Each version may simultaneously be an improvement and regression in terms of compatibility.</p>
+<p>Consider, for instance, a function that Wine has implemented to see if a number is even or not. This is (hypothetically) a function that is supposed to be the analogue to a Windows syscall.</p>
+<pre><code>int iseven(int n) {
+    
+    if (n % 2) {
+        return 0;
+    } else {
+        return 1;
+    }
+
+}</code></pre>
+<p>This just returns 0 if a number is odd or 1 if a number is even.</p>
+<p>Now, let’s say a Wine developer reads official Microsoft public documentation on this API and realizes that this isn’t completely perfect, and that Windows actually returns -1 if a number is negative. They end up modifiying the code to be like the one below:</p>
+<pre><code>int iseven(int n) {
+
+    if (n &lt; 0) {
+        return -1;
+    }   
+
+    if (n % 2) {
+        return 0;
+    } else {
+        return 1;
+    }
+
+}</code></pre>
+<p>But, in reality, let’s say Windows does things a bit differently:</p>
+<pre><code>int iseven(int n) {
+
+    int result;
+
+    if (n &lt; 0) {
+        result = -1;
+    }   
+
+    if (n % 2) {
+        result = 0;
+    } else {
+        result = 1;
+    }
+
+    return result;
+
+}</code></pre>
+<p>This <em>looks</em> to be the same, but actually negative numbers modulo 2 will in fact trigger the second condition, setting result = 0 and therefore returning a different value than what is “the correct behaviour”.</p>
+<p>Now, the official, public Windows docs will just say “-1 when it’s a negative number, 0 if odd, 1 if even”. However, in reality, there is a bug here, and Windows developers will know of this bug and take it into consideration. Why can’t Microsoft just fix the bug? Because Windows has a hard requirement to be backwards compatible (that’s why business software usually just runs on Windows; 20-30 year old APIs can still somehow run just fine on a modern, up-to-date Windows install from today), so they’ll trudge along as much as they can.</p>
+<p>Now, this is a fairly simple example, but there are so many, complex APIs that all depend on each other one way or another and do so much more than this, that you can imagine why Wine has been around since the 90s and still can have problems running software.</p>
+<p>Each release will tweak certain APIs a bit to make test cases run better, but there will likely always be some piece of software out there that will break.</p>
+<p>It’s not all bad news though. Most of the older APIs are pretty much implemented perfectly, so sometimes Wine can run <em>really old</em> (think ~90s software) software better than even Windows’ own backward compatibilty modes, making it a good candidate for retro Windows gaming or just getting a really old piece of software running for nostalgia’s sake.</p>
+<h3 id="the-tips">The Tips</h3>
+<ol type="1">
+<li><p>ALWAYS use a new WINEPREFIX for new software! This helps keep stuff clean and organized, and if something odesn’t run, you don’t have to create a new WINEPREFIX anyway for debugging (this is actually the first thing the Wine devs ask you to do when submitting a bug report).</p></li>
+<li><p>Wine doesn’t ship with a lot of stuff that Windows does by default, sometimes because they can’t distribute proprietary Microsoft code, such as any C++ redistributables or .NET. These are required by certain pieces of software, though, so if something doesn’t work, check to see if the software depends on these pieces of code.</p>
+<p>If so, install them.</p>
+<p>For games, you can install DirectX from <a href="https://www.microsoft.com/en-us/download/details.aspx?id=8109">this link</a>. If that doesn’t work, you can get the binary directly from the Internet Archive <a href="https://web.archive.org/web/20220511110334/https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe">here</a></p>
+<p>Installation path is KEY here! For the Arkham games, it’s usually something like “program files (x86)arkham-asylum”. This can vary by game, so make sure to do a little bit of investigation. I found this tip thanks to <a href="https://www.youtube.com/watch?v=Oya0p7E9i0k">this YouTube video</a>, which actually wasn’t even for Wine, so that’s kind of funny I guess! Thanks a lot, <a href="https://www.youtube.com/channel/UC5qR_9w7xCnkKG5OF6ThpbA">Sektor LK-9T9</a>!</p></li>
+<li><p>If these don’t really work, check the Internet for specific advice on running that specific software on Wine. WineDB, as mentioned above, is a good starting point, but it may be outdated, so it’s better to just search the Internet.</p></li>
+</ol>
+<h3 id="conclusion">Conclusion</h3>
+<p>I am pretty interested in reverse-engineering, and since Wine was a piece of software I use a lot, it was nice to learn more and share that info.</p>
+<p>That’s all for today. Bye now!</p>
+<!-- FOOT START -->
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2022 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
+</html>
