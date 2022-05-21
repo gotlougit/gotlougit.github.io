@@ -1,0 +1,141 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='styles/style.css'>
+	<meta charset="utf-8">
+	<title>Writing a CHIP-8 Emulator - Nonchalant Guidance</title>
+</head>
+<div align='center'>
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<a href='aboutme.html'>About Me</a>·<a href='comingsoon.html' title='coming soon!'>RSS</a>·<a href="https://github.com/gotlougit">My Projects</a></p>
+</div>
+<form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <input type="hidden" name="sites" value="gotlougit.github.io"/>
+    <input type="hidden" name="k7" value="#ffffff"/>
+    <input type="hidden" name="k8" value="#222222"/>
+    <input type="hidden" name="k9" value="#00278e"/>
+    <input type="hidden" name="kx" value="#20692b"/>
+    <input type="hidden" name="kj" value="#fafafa"/>
+    <input type="hidden" name="kt" value="p"/>
+    <input type="text" name="q" placeholder="Search this website.." aria-label="Search gotlougit.github.io on DuckDuckGo"/>
+    <button type="submit">Search</button>
+</form>
+<hr />
+<!-- HEAD END -->
+Added on: Saturday, 21 May, 2022 | Updated on: -
+<h1 id="writing-a-chip-8-emulator">Writing a CHIP-8 Emulator</h1>
+<h2 id="did-i-mention-i-know-nothing-about-emulators">(Did I mention I know nothing about emulators?)</h2>
+<h3 id="overview">Overview</h3>
+<p>I am very interested in low-level system programming, and have always strived to learn more about the low-level details about computers. One way that I found I could familiarize myself with the inner workings of a computer is to write an emulator for a simple system.</p>
+<p>CHIP-8 has long been the system to get started with when developing an emulator for the first time. It’s very simple and there’s a ton of documentation for it. But what happens if you don’t know half of what the docs talk about?</p>
+<p>Well, let’s find out.</p>
+<h3 id="understanding-the-basics">Understanding the basics</h3>
+<p>First things first- CHIP-8 isn’t actually a real system. It was intended to be a virtual system of sorts made specifically to help create games easily on a real machine, ie, the COSMAC VIP and Telmac 1000 computers, both of which were 8-bit systems. So, really, it’s not an emulator we’re developing, but rather an interpreter, since an emulator is designed to run programs written for a real system.</p>
+<h3 id="building-the-program">Building the Program</h3>
+<p>By using <a href="https://felix.engineer/blogs/virtual-machine-in-c">this guide on building a virtual machine</a>, I was able to create a very basic virtual machine of sorts, implementing a very small instruction set and getting to learn about the fetch-decode-execute cycle.</p>
+<p>I used the code I’d written for the stack later in the CHIP-8 emulator, but other than that, this was purely a learning experience type thing. In fact, after writing the virtual machine, I’d taken a break from this project until I was just casually crawling through my directory and found it.</p>
+<p>I gathered up resources to help me build the emulator. This included a good overview of all the instructions I needed to implement, the info about the stack, RAM size and type, timers etc. Additionally, I joined the <a href="https://discord.gg/dkmJAes">r/emudev Discord server</a> to get the help of more experienced devs.</p>
+<p>After this, it was time to start coding.</p>
+<h3 id="some-background-info">Some background info</h3>
+<p>Fundamentally, programs run on computers in a “fetch-decode-execute” cycle:</p>
+<ol type="1">
+<li><p>The CPU “fetches” the instruction from RAM (the address where the instruction is supposed to be fetched from is stored in something called a “program counter”, which is built into the CPU itself)</p></li>
+<li><p>The instruction is “decoded”, ie, the CPU figures out what to do from the information encoded inside the instruction. This could be something like “add the two numbers stored in addresses X and Y and store the result in address X)</p></li>
+<li><p>The CPU “executes” the instruction. The program counter is incremented as well and then the cycle starts over again with the next instruction.</p></li>
+</ol>
+<p>For a simple emulator, we just need to implement these steps in software instead of the original hardware. This includes not just the interpretation and execution of instructions, but also the RAM, the registers (basically very fast variable stores built into the CPU itself), any cache (not applicable for CHIP-8), timers etc.</p>
+<p>There’s a couple of different ways to do this. You could just read each instruction in the program and execute it (most similar to how the actual machine did it), and it’s accurate but pretty slow. For modern machines emulating really old machines, this isn’t a huge problem and for my CHIP-8 project, I did this. It’s far simpler and the speed gains from more complicated methods is not worth it.</p>
+<p>If you wanted to emulate, say, a modern games console on a PC today, you would need to utilize something called Just in Time Compilation, or JIT for short. What this does is it looks out for pieces of code that get repeatedly called and translates them into native machine code so that if the code gets called again, it’s blazing fast. You can see how this would help complicated machines to be emulated. In fact, JavaScript interpreters in almost all major browsers use this technique to get JavaScript to run at a very impressive speed considering it’s interpreted ultimately.</p>
+<h3 id="putting-the-pieces-together">Putting the pieces together</h3>
+<p>Thanks to <a href="https://tobiasvl.github.io/blog/write-a-chip-8-emulator/">this amazing guide</a>, I was able to create a couple variables for all the important parts of the CHIP-8 system.</p>
+<p>This included:</p>
+<pre><code>- The stack
+- Program counter
+- Registers
+- Timers
+- Memory</code></pre>
+<p>These data types, along with the fundamental fetch() and eval() instructions are implemented in a <code>structures.h</code> file. The eval() function in particular is made up of a couple nested <code>switch-case</code> statements to interpret each instruction and perform the required work.</p>
+<p>For CHIP-8, each instruction is stored in memory as two 8-bit numbers, so there’a bit of code and some preprocessing directives to create functions to aid in this processing. So for example, if an instruction is given as “1234”, it’s stored in memory as “12” and “34”, and certain functions help get the following values:</p>
+<p>“1”,“234”,“2”,“34”,“3”,“4”</p>
+<p>Depending upon the value of the most significant digit (here it’s 1), some of the other extracted values may be needed (but almost never all of them). It’s much easier to just calculate all these values in one place in case they’re needed though, so that’s why it’s done this way. I’d originally been calculating these as needed but I’d always forget to do this somewhere so I gave up and did it all at once.</p>
+<p>Once I had all this data, it was just a matter of going through each guide and implementing the instruction as best I could. By far the most complicated routine was the “DXYN” instruction, which is used to draw pixels to the screen. The code <em>seemed</em> to be fine, but due to ambiguity in how the article had phrased the work done by this instruction, as well as things I myself had just forgot to do, like increment the y-coordinate variable so as to <strong>not</strong> keep redrawing the same row again and again, I’d messed up a lot. Thankfully, the r/emudev Discord server has extremely helpful people, some of whom took a glance at my code and figured out things I’d left out.</p>
+<p>In order to avoid such things, I’d like to explain the DXYN instruction according to my implementation, which (to the best of my knowledge) is correct.</p>
+<p>Basically, it first:</p>
+<ol type="1">
+<li>Gets X and Y coordinates from the Xth register and Yth register in DXYN respectively</li>
+<li>Draws N rows</li>
+<li>Row data is stored as an offset of index register inside RAM</li>
+<li>For each bit in the row data, we check the old pixel value and XOR it</li>
+<li>We also set the last register, Register 15 to 1 if the pixel had to be turned off, else it would be 0</li>
+<li>Move onto the next row till we reach N rows drawn.</li>
+</ol>
+<p>This is the psuedo (ish) code for the DXYN instruction based on the latest commit at the time of writing (6918c06e):</p>
+<pre><code>bool hasScreenChanged = false;
+registers[0xF] = 0; //as per instruction&#39;s actions
+int y = registers[Y] % ORIG_HEIGHT;
+for (int iter = 0; iter &lt; N; iter++) {
+    int x = registers[X] % ORIG_WIDTH;
+    uint8_t row = memory[indexreg + iter];
+    int power = 7;
+    while (row &gt; 0) {
+        bool bit = (bool) (row &gt;&gt; power);
+        bool pixelVal = getPixelVal(x,y);
+        bool newVal = bit ^ pixelVal;
+        if (newVal != pixelVal) { //check if screen has changed
+            hasScreenChanged = true;
+        }
+        registers[0xF] = (!(newVal) &amp;&amp; pixelVal); //set register value accordingly
+        setPixel(x,y,newVal); //set screen pixel
+        row = row % ((int) pow(2,power));
+        power--;
+        x++;
+        if (x &gt; ORIG_WIDTH) { //make sure screen does&#39;t go out of bounds
+            x = 0;
+            break;
+        }
+    }
+    y++;
+    //just make sure you don&#39;t draw outside the screen
+    if (y &gt; ORIG_HEIGHT) {
+        y = 0;
+        break;
+    }
+}
+if (hasScreenChanged) { //only redraw if screen changes
+    ClearScreen();
+    UpdateScreenTexture();
+    RenderScreen();
+}</code></pre>
+<h3 id="some-bugs-still-remain">Some bugs still remain :(</h3>
+<p>Implementing most instructions was easy, but some that deal with certain aspects of the machine are still unclear to me.</p>
+<p>The timers in particular are troubling. The instructions dealing with the timer code is not really working, and while the emulator passes the most basic of tests- the IBM ROM (which uses the bare minimum instructions to display the IBM logo on the screen)- it doesn’t run games etc properly.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>I’d shelved the project for now since it’s not clear to me what’s going wrong here. I’ll pick it up in the future and see if something strikes but for now, I’m afraid the sequel to this saga will come later.</p>
+<p>If you want to read my code, you can <a href="https://github.com/gotlougit/chip8-emulator">view it here</a>. If you know what went wrong, feel free to shoot a PR on that repo! I’ll certainly learn more from the experience and perhaps you will too!</p>
+<p>Nevertheless, the fact that I’d gotten to get anything to work was an amazing feeling! I was able to:</p>
+<ul>
+<li><p>take a binary</p></li>
+<li><p>read it</p></li>
+<li><p>decode it</p></li>
+<li><p>execute the instruction</p></li>
+<li><p>fetch the next instruction</p></li>
+<li><p>implement the computer’s major components in software</p></li>
+<li><p>get output on the screen</p></li>
+</ul>
+<p>I learned a lot about computer architecture from this small exercise. I highly encourage building a small project like this as well to learn more about certain aspects of computing. In fact, I have more such toy implementations in the works, so stay tuned!</p>
+<p>That’s all for today. Bye now!</p>
+<h3 id="resources">Resources:</h3>
+<ul>
+<li><p><a href="http://www.emulator101.com/chip-8-emulator.html">Comprehensive guide for CHIP-8</a></p></li>
+<li><p><a href="https://tobiasvl.github.io/blog/write-a-chip-8-emulator/">A really nice blogpost on how to build a CHIP-8 emulator; this lays out in simple terms what each instruction needs to do</a></p></li>
+<li><p><a href="https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Technical-Reference">A complete CHIP-8 technical reference</a></p></li>
+<li><p><a href="https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Instruction-Set">Another technical reference</a></p></li>
+<li><p><a href="http://devernay.free.fr/hacks/chip8/C8TECH10.HTM">Yet another technical reference for CHIP-8</a></p></li>
+<li><p><a href="https://github.com/corax89/chip8-test-rom">Test ROMs for your emulator</a></p></li>
+<li><p><a href="https://old.reddit.com/r/emudev">r/emudev subreddit for advice on emulation development</a></p></li>
+</ul>
+<p>Note: I gave three different technical references in case you have any difficulty understanding what one of them is saying.</p>
+<!-- FOOT START -->
+<hr />
+<p>This website was made using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, <a href="https://pandoc.org/" title="To convert Markdown to HTML pages">Pandoc</a>, and a <a href='https://github.com/gotlougit/blog-helper' title='blog-helper'>custom program</a> to automatically add headers and footers (including this one) to any document that’s published here.</p>
+<p>Copyright © 2022 Saksham Mittal. All rights reserved. Unless otherwise stated, all content on this website is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 International License</a></p>
+</html>
