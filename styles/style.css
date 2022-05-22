@@ -1,18 +1,19 @@
+html {
+  scrollbar-width: thin;
+}
+
 body {
   background-color: #222222;
   color:#bababa;
-  font-size:1.5vw;
+  font-size: calc(1em + 0.25vw);
   font-family: monospace;
+  margin: calc(1em + 2.5vw);
 }
 
 h1 {
   color: #eaeaea;
   text-align: center;
-  font-size:3vw;
-}
-
-html {
-  scrollbar-width: thin;
+  font-size: calc(2em + 1vw);
 }
 
 a {
