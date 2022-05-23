@@ -3,7 +3,7 @@
 	<link rel='stylesheet' type='text/css' href='styles/style.css'>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>On Wine - Nonchalant Guidance</title>
+	<title> - Nonchalant Guidance</title>
 </head>
 <div align='center'>
 <h1><a href="index.html">Nonchalant Guidance</a></h1>
@@ -23,9 +23,13 @@
 <hr />
 <!-- HEAD END -->
 
-
-
-<p>Added on: Saturday, 21 May, 2022 | Updated on: Sunday, 22 May, 2022
+<section id="nonchalant-guidance" data-align="center">
+<h1><a href="index.html">Nonchalant Guidance</a></h1>
+<p><a href="aboutme.html">About Me</a>·<a href="comingsoon.html" title="coming soon!">RSS</a>·<a href="https://github.com/gotlougit">My Projects</a></p>
+</section>
+<p>Search</p>
+<hr />
+<p>Added on: Saturday, 21 May, 2022 | Updated on: Monday, 23 May, 2022
 <h1 id="on-wine">On Wine</h1>
 <h2 id="some-interesting-facts-and-tips-for-a-better-experience">Some interesting facts and tips for a better experience</h2>
 <h3 id="introduction">Introduction</h3>
@@ -82,10 +86,10 @@
 
 }</code></pre>
 <p>This <em>looks</em> to be the same, but actually negative numbers modulo 2 will in fact trigger the second condition, setting result = 0 and therefore returning a different value than what is “the correct behaviour”.</p>
-<p>Now, the official, public Windows docs will just say “-1 when it’s a negative number, 0 if odd, 1 if even”. However, in reality, there is a bug here, and Windows developers will know of this bug and take it into consideration. Why can’t Microsoft just fix the bug? Because Windows has a hard requirement to be backwards compatible (that’s why business software usually just runs on Windows; 20-30 year old Apia can still somehow run just fine on a modern, up-to-date Windows install from today), so they’ll trudge along as much as they can.</p>
-<p>Now, this is a fairly simple example, but there are so many, complex Apia that all depend on each other one way or another and do so much more than this, that you can imagine why Wine has been around since the 90s and still can have problems running software.</p>
-<p>Each release will tweak certain Apia a bit to make test cases run better, but there will likely always be some piece of software out there that will break.</p>
-<p>It’s not all bad news though. Most of the older Apia are pretty much implemented perfectly, so sometimes Wine can run <em>really old</em> (think ~90s software) software better than even Windows’ own backward compatibility modes, making it a good candidate for retro Windows gaming or just getting a really old piece of software running for nostalgia’s sake.</p>
+<p>Now, the official, public Windows docs will just say “-1 when it’s a negative number, 0 if odd, 1 if even”. However, in reality, there is a bug here, and Windows developers will know of this bug and take it into consideration. Why can’t Microsoft just fix the bug? Because Windows has a hard requirement to be backwards compatible (that’s why business software usually just runs on Windows; 20-30 year old APIs can still somehow run just fine on a modern, up-to-date Windows install from today), so they’ll trudge along as much as they can.</p>
+<p>Now, this is a fairly simple example, but there are so many, complex APIs that all depend on each other one way or another and do so much more than this, that you can imagine why Wine has been around since the 90s and still can have problems running software.</p>
+<p>Each release will tweak certain APIs a bit to make test cases run better, but there will likely always be some piece of software out there that will break.</p>
+<p>It’s not all bad news though. Most of the older APIs are pretty much implemented perfectly, so sometimes Wine can run <em>really old</em> (think ~90s software) software better than even Windows’ own backward compatibility modes, making it a good candidate for retro Windows gaming or just getting a really old piece of software running for nostalgia’s sake.</p>
 <h3 id="the-tips">The Tips</h3>
 <ol type="1">
 <li><p>ALWAYS use a new WINEPREFIX for new software! This helps keep stuff clean and organized, and if something doesn’t run, you don’t have to create a new WINEPREFIX anyway for debugging (this is actually the first thing the Wine devs ask you to do when submitting a bug report).</p></li>
@@ -98,7 +102,6 @@
 <h3 id="conclusion">Conclusion</h3>
 <p>I am pretty interested in reverse-engineering, and since Wine was a piece of software I use a lot, it was nice to learn more and share that info.</p>
 <p>That’s all for today. Bye now!</p>
-
 
 <!-- FOOT START -->
 <hr />
