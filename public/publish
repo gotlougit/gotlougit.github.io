@@ -6,7 +6,7 @@ for f in $files
 do
 	if test -f $f
 	then
-		if [[ $(file -b --mime-type $f) == "text/plain" && $f == *.html ]]
+		if [[ $(file -b --mime-type $f) == "text/html" && $f == *.html ]]
 		then
 			#spell check
 			aspell -c $f
